@@ -1,0 +1,96 @@
+<template>
+  <div class="warp">
+    <div class="bodyBox">
+      <UserHeader :addTodo="addTodo" />
+      <List
+        :todoList="todoList"
+        :checkTodo="checkTodo"
+        :deleteTodo="deleteTodo"
+      />
+      <UserFooter :todoList="todoList" :clearTodo="clearTodo" />
+    </div>
+  </div>
+</template>
+
+<script>
+import UserFooter from "./components/UserFooter.vue";
+import UserHeader from "./components/myHeader.vue";
+import List from "./components/List.vue";
+
+export default {
+  name: "App",
+  data() {
+    return {
+      todoList: JSON.parse(localStorage.getItem("todos")) || [
+        {
+          id: "001",
+          title: "吃饭",
+          completed: false,
+        },
+        {
+          id: "002",
+          title: "睡觉",
+          completed: false,
+        },
+        {
+          id: "003",
+          title: "打肥肥",
+          completed: false,
+        },
+      ],
+    };
+  },
+  methods: {
+    addTodo(x) {
+      this.todoList.unshift(x);
+    },
+    checkTodo(id) {
+      this.todoList.forEach((todo) => {
+        //勾选或取消勾选一个todo
+        if (todo.id === id) todo.completed = !todo.completed;
+      });
+    },
+    //删除一个Todo
+    deleteTodo(id) {
+      this.todoList = this.todoList.filter((todo) => todo.id !== id);
+    },
+    clearTodo() {
+      this.todoList = this.todoList.filter((todo) => !todo.completed);
+    },
+  },
+  watch: {
+    todoList: {
+      deep: true,
+      handler(value) {
+        localStorage.setItem("todos", JSON.stringify(value));
+      },
+    },
+  },
+  components: { UserFooter, UserHeader, List },
+};
+</script>
+
+<style lang="css">
+body {
+  background-color: #e3ebf4;
+}
+.warp {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 80px;
+}
+.bodyBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 500px;
+  height: auto;
+  padding: 50px 0 20px 0;
+  border-radius: 20px;
+  background: #e3ebf4;
+  box-shadow: 9px 9px 14px #adb3b9, -9px -9px 14px #ffffff;
+}
+</style>
