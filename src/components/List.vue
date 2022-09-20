@@ -38,31 +38,32 @@ export default {
 }
 
 .action {
+  position: relative;
+  width: 350px;
+  height: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   user-select: none;
   cursor: pointer;
-  color: #777;
-  position: relative;
-  width: 350px;
-  height: 20px;
-  background: #ddd;
   border-radius: 20px;
+  background: #e0e0e0;
+  box-shadow: inset 3px 3px 5px #bebebe, inset -3px -3px 5px #ffffff;
   transform: 1s;
 }
 
 .action i {
   position: relative;
   width: 350px;
+  /* right: 175px; */
   height: 20px;
-  background: #ddd;
   border-radius: 15px;
   transition: 0.5s;
 }
 
 .action input:checked ~ i {
   background: #2aa0ff;
+  box-shadow: inset 3px 3px 5px #2488d9, inset -3px -3px 5px #30b8ff;
 }
 
 .action i::before {
@@ -75,7 +76,7 @@ export default {
   border-radius: 20px;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: 0.5s;
+  transition: 0.8s;
 }
 
 .action input:checked ~ i::before {
