@@ -4,8 +4,8 @@
       <input
         type="checkbox"
         class="selectBox"
-        :checked="todo.completed"
         :class="isInputChecked"
+        :checked="todo.completed"
       />
       <!-- 如下代码也能实现功能，但是不推荐，因为修改了props -->
       <!-- <input type="checkbox" class="selectBox" v-model="todo.completed" /> -->
@@ -20,37 +20,36 @@ export default {
   name: "Item",
 
   //声明接收todo对象
-  props: ["todo", "isChecked", "isInputChecked", "checkTodo", "deleteTodo"],
+  props: ["todo"],
   data() {
     return {
-      // isChecked: "",
-      // notChecked: "#aab4c5",
-      // Checked: "text-decoration:line-through;color:#b8bed1",
-      // isInputChecked: "",
-      // inputChecked: "selectBox_checked",
+      isChecked: "",
+      isInputChecked: "",
     };
   },
   methods: {
     checked(id) {
       // this.checkTodo(id);
       this.$bus.$emit("checkTodo", id);
+      this.checkedClass();
     },
     handleDelete(id) {
       if (confirm("确定删除吗？")) {
-        this.deleteTodo(id);
+        this.$bus.$emit("deleteTodo", id);
       }
     },
-    mounted() {
-      console.log(this.todo);
+    checkedClass() {
       if (this.todo.completed) {
-        this.isChecked = this.Checked;
-        console.log(this.isChecked);
-        this.isInputChecked = this.inputChecked;
+        this.isChecked = "text-decoration:line-through;color:#b8bed1";
+        this.isInputChecked = "selectBox_checked";
       } else {
-        this.isChecked = this.notChecked;
+        this.isChecked = "";
         this.isInputChecked = "";
       }
     },
+  },
+  mounted() {
+    this.checkedClass();
   },
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div class="warp">
     <div class="bodyBox">
-      <UserHeader :addTodo="addTodo" />
+      <UserHeader @addTodo="addTodo" />
       <List :todoList="todoList" />
       <UserFooter :todoList="todoList" @clearTodo="clearTodo" />
     </div>
@@ -44,7 +44,7 @@ export default {
     },
     checkTodo(id) {
       this.todoList.forEach((todo) => {
-        todo.completed = !todo.completed;
+        if (todo.id == id) todo.completed = !todo.completed;
         //勾选或取消勾选一个todo
         // if (todo.id === id) {
 

@@ -24,6 +24,8 @@ export default {
       //   return pre + (current.completed ? 1 : 0);
       // }, 0);
     },
+  },
+  methods: {
     clearAll() {
       this.$emit("clearTodo");
     },
