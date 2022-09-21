@@ -1,14 +1,14 @@
 <template>
   <div class="warpBody" v-show="total">
     <div class="mission">{{ completedTotal }}/{{ total }}项任务</div>
-    <button class="deleteBtn" @click="clearTodo">删除已完成</button>
+    <button class="deleteBtn" @click="clearAll">删除已完成</button>
   </div>
 </template>
 
 <script>
 export default {
   name: "UserFooter",
-  props: ["todoList", "clearTodo"],
+  props: ["todoList"],
   computed: {
     total() {
       return this.todoList.length;
@@ -23,6 +23,9 @@ export default {
       //   console.log("@", pre, current);
       //   return pre + (current.completed ? 1 : 0);
       // }, 0);
+    },
+    clearAll() {
+      this.$emit("clearTodo");
     },
   },
 };

@@ -2,12 +2,8 @@
   <div class="warp">
     <div class="bodyBox">
       <UserHeader :addTodo="addTodo" />
-      <List
-        :todoList="todoList"
-        :checkTodo="checkTodo"
-        :deleteTodo="deleteTodo"
-      />
-      <UserFooter :todoList="todoList" :clearTodo="clearTodo" />
+      <List :todoList="todoList" />
+      <UserFooter :todoList="todoList" @clearTodo="clearTodo" />
     </div>
   </div>
 </template>
@@ -34,10 +30,12 @@ export default {
         },
         {
           id: "003",
-          title: "打肥肥",
+          title: "打代码",
           completed: false,
         },
       ],
+      // isChecked: "",
+      // isInputChecked: "",
     };
   },
   methods: {
@@ -46,8 +44,18 @@ export default {
     },
     checkTodo(id) {
       this.todoList.forEach((todo) => {
+        todo.completed = !todo.completed;
         //勾选或取消勾选一个todo
-        if (todo.id === id) todo.completed = !todo.completed;
+        // if (todo.id === id) {
+
+        //   if (todo.completed) {
+        //     isChecked = "text-decoration:line-through;color:#b8bed1";
+        //     isInputChecked = "selectBox_checked";
+        //   } else {
+        //     isChecked = "#aab4c5";
+        //     isInputChecked = "";
+        //   }
+        // }
       });
     },
     //删除一个Todo
@@ -67,6 +75,14 @@ export default {
     },
   },
   components: { UserFooter, UserHeader, List },
+  mounted() {
+    this.$bus.$on("checkTodo", this.checkTodo);
+    this.$bus.$on("deleteTodo", this.deleteTodo);
+  },
+  beforeDestroy() {
+    this.$bus.$off("checkTodo");
+    this.$bus.$off("deleteTodo");
+  },
 };
 </script>
 

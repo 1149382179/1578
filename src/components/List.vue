@@ -6,13 +6,7 @@
         <i></i>
       </span>
     </label>
-    <Item
-      v-for="todoObj in todoList"
-      :key="todoObj.id"
-      :todo="todoObj"
-      :checkTodo="checkTodo"
-      :deleteTodo="deleteTodo"
-    />
+    <Item v-for="todoObj in todoList" :key="todoObj.id" :todo="todoObj" />
   </div>
 </template>
 
@@ -20,9 +14,14 @@
 import Item from "./Item.vue";
 
 export default {
+  data() {
+    return {
+      // nums: 0,
+    };
+  },
   name: "List",
   components: { Item },
-  props: ["todoList", "checkTodo", "deleteTodo"],
+  props: ["todoList"],
 };
 </script>
 

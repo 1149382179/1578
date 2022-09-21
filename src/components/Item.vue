@@ -20,31 +20,35 @@ export default {
   name: "Item",
 
   //声明接收todo对象
-  props: ["todo", "checkTodo", "deleteTodo"],
+  props: ["todo", "isChecked", "isInputChecked", "checkTodo", "deleteTodo"],
   data() {
     return {
-      isChecked: "",
-      notChecked: "#aab4c5",
-      Checked: "text-decoration:line-through;color:#b8bed1",
-      isInputChecked: "",
-      inputChecked: "selectBox_checked",
+      // isChecked: "",
+      // notChecked: "#aab4c5",
+      // Checked: "text-decoration:line-through;color:#b8bed1",
+      // isInputChecked: "",
+      // inputChecked: "selectBox_checked",
     };
   },
   methods: {
     checked(id) {
-      this.checkTodo(id);
-      if (this.todo.completed) {
-        this.isChecked = this.Checked;
-        this.isInputChecked = this.inputChecked;
-        console.log(this.isInputChecked);
-      } else {
-        this.isChecked = this.notChecked;
-        this.isInputChecked = "";
-      }
+      // this.checkTodo(id);
+      this.$bus.$emit("checkTodo", id);
     },
     handleDelete(id) {
       if (confirm("确定删除吗？")) {
         this.deleteTodo(id);
+      }
+    },
+    mounted() {
+      console.log(this.todo);
+      if (this.todo.completed) {
+        this.isChecked = this.Checked;
+        console.log(this.isChecked);
+        this.isInputChecked = this.inputChecked;
+      } else {
+        this.isChecked = this.notChecked;
+        this.isInputChecked = "";
       }
     },
   },
