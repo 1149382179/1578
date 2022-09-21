@@ -9,7 +9,7 @@
       />
       <!-- 如下代码也能实现功能，但是不推荐，因为修改了props -->
       <!-- <input type="checkbox" class="selectBox" v-model="todo.completed" /> -->
-      <div class="list" :style="isChecked">{{ todo.title }}</div>
+      <div class="list" :class="isChecked">{{ todo.title }}</div>
     </label>
     <button class="deleteBtn" @click="handleDelete(todo.id)">x</button>
   </div>
@@ -39,13 +39,8 @@ export default {
       }
     },
     checkedClass() {
-      if (this.todo.completed) {
-        this.isChecked = "text-decoration:line-through;color:#b8bed1";
-        this.isInputChecked = "selectBox_checked";
-      } else {
-        this.isChecked = "";
-        this.isInputChecked = "";
-      }
+      this.isChecked = this.todo.completed ? "completed" : "";
+      this.isInputChecked = this.todo.completed ? "selectBox_checked" : "";
     },
   },
   mounted() {
@@ -60,6 +55,7 @@ export default {
   flex-wrap: nowrap;
   align-items: center;
 }
+
 .listBox {
   margin-top: 24px;
   width: 350px;
@@ -71,6 +67,7 @@ export default {
   box-shadow: 5px 5px 8px #c1c7cf, -5px -5px 8px #ffffff;
   transition: all 3s linear 1s;
 }
+
 .selectBox {
   appearance: none;
   width: 1.2rem;
@@ -80,23 +77,33 @@ export default {
   border: skyblue 1px solid;
   text-align: center;
 }
+
 /*判断是否有选择*/
 .selectBox_checked:after {
   content: "\2714";
   color: skyblue;
 }
+
 /*css 方式实现
 input[type="checkbox"]:checked::before {
   content: "\2714";
   color: skyblue;
 }*/
+
 .list {
   width: 250px;
   margin-left: 16px;
 }
+
 .listBox:hover .deleteBtn {
   opacity: 1;
 }
+
+.list.completed {
+  text-decoration: line-through;
+  color: #b8bed1;
+}
+
 .deleteBtn {
   opacity: 0;
   color: #b8bed1;

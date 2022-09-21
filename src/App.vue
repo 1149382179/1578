@@ -45,17 +45,6 @@ export default {
     checkTodo(id) {
       this.todoList.forEach((todo) => {
         if (todo.id == id) todo.completed = !todo.completed;
-        //勾选或取消勾选一个todo
-        // if (todo.id === id) {
-
-        //   if (todo.completed) {
-        //     isChecked = "text-decoration:line-through;color:#b8bed1";
-        //     isInputChecked = "selectBox_checked";
-        //   } else {
-        //     isChecked = "#aab4c5";
-        //     isInputChecked = "";
-        //   }
-        // }
       });
     },
     //删除一个Todo
