@@ -17,8 +17,6 @@ export default {
   data() {
     return {
       nums: 0,
-      isChecked: "",
-      isInputChecked: "",
     };
   },
   name: "List",
@@ -28,20 +26,20 @@ export default {
     checkAllTodo(nums) {
       this.$bus.$emit("checkAllTodo", nums);
       this.nums++;
-      this.todoList.forEach(() => {
-        this.checkedClass();
-      });
+      // this.todoList.forEach(() => {
+      //   this.checkedClass();
+      // });
     },
-    checkedClass() {
-      this.isChecked = this.todo.completed ? "completed" : "";
-      this.isInputChecked = this.todo.completed ? "selectBox_checked" : "";
-    },
-    mounted() {
-      this.$bus.$on("checkedClass", this.checkedClass);
-    },
-    beforeDestroy() {
-      this.$bus.$off("checkedClass");
-    },
+    // checkedClass() {
+    //   this.isChecked = this.todo.completed ? "completed" : "";
+    //   this.isInputChecked = this.todo.completed ? "selectBox_checked" : "";
+    // },
+    // mounted() {
+    //   this.$bus.$on("checkedClass", this.checkedClass);
+    // },
+    // beforeDestroy() {
+    //   this.$bus.$off("checkedClass");
+    // },
     // checkClass(todo) {
     //   this.$bus.$emit("checkClass", todo);
     // },

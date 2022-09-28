@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import pubsub from "pubsub-js";
 import UserFooter from "./components/UserFooter.vue";
 import UserHeader from "./components/myHeader.vue";
 import List from "./components/List.vue";
@@ -52,25 +53,22 @@ export default {
     checkAllTodo(nums) {
       console.log(nums);
       this.todoList.forEach((todoList) => {
-        if (nums % 2 == 1) {
+        if (nums % 2 == 0) {
           todoList.completed = true;
         }
-        if (nums % 2 == 0) {
+        if (nums % 2 == 1) {
           todoList.completed = false;
         }
       });
     },
     //删除一个Todo
-    deleteTodo(id) {
+    deleteTodo(_, id) {
+      //下划线占位
       this.todoList = this.todoList.filter((todo) => todo.id !== id);
     },
     clearTodo() {
       this.todoList = this.todoList.filter((todo) => !todo.completed);
     },
-    // checkedClass(isChecked, isInputChecked) {
-    //   isChecked = this.todoList.completed ? "completed" : "";
-    //   isInputChecked = this.todoList.completed ? "selectBox_checked" : "";
-    // },
   },
   watch: {
     todoList: {
@@ -83,12 +81,14 @@ export default {
   components: { UserFooter, UserHeader, List },
   mounted() {
     this.$bus.$on("checkTodo", this.checkTodo);
-    this.$bus.$on("deleteTodo", this.deleteTodo);
+    // this.$bus.$on("deleteTodo", this.deleteTodo);
+    this.pubId = pubsub.subscribe("deleteTodo", this.deleteTodo);
     this.$bus.$on("checkAllTodo", this.checkAllTodo);
   },
   beforeDestroy() {
     this.$bus.$off("checkTodo");
-    this.$bus.$off("deleteTodo");
+    // this.$bus.$off("deleteTodo");
+    pubsub.unsubscribe(this.pubId);
     this.$bus.$off("checkAllTodo");
   },
 };

@@ -16,13 +16,17 @@
 </template>
 
 <script>
+import pubsub from "pubsub-js";
 export default {
   name: "Item",
 
   //声明接收todo对象
   props: ["todo"],
   data() {
-    return {};
+    return {
+      isChecked: "",
+      isInputChecked: "",
+    };
   },
   methods: {
     checked(id) {
@@ -32,12 +36,25 @@ export default {
     },
     handleDelete(id) {
       if (confirm("确定删除吗？")) {
-        this.$bus.$emit("deleteTodo", id);
+        // this.$bus.$emit("deleteTodo", id);
+        pubsub.publish("deleteTodo", id);
       }
+    },
+    checkedClass() {
+      this.isChecked = this.todo.completed ? "completed" : "";
+      this.isInputChecked = this.todo.completed ? "selectBox_checked" : "";
     },
   },
   mounted() {
-    this.$bus.$emit("checkedClass");
+    this.checkedClass();
+  },
+  watch: {
+    todo: {
+      deep: true,
+      handler() {
+        this.checkedClass();
+      },
+    },
   },
 };
 </script>
