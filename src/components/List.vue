@@ -2,7 +2,7 @@
   <div>
     <label>
       <span class="action">
-        <input type="checkbox" />
+        <input type="checkbox" @click="checkAllTodo(nums)" />
         <i></i>
       </span>
     </label>
@@ -16,12 +16,36 @@ import Item from "./Item.vue";
 export default {
   data() {
     return {
-      // nums: 0,
+      nums: 0,
+      isChecked: "",
+      isInputChecked: "",
     };
   },
   name: "List",
   components: { Item },
   props: ["todoList"],
+  methods: {
+    checkAllTodo(nums) {
+      this.$bus.$emit("checkAllTodo", nums);
+      this.nums++;
+      this.todoList.forEach(() => {
+        this.checkedClass();
+      });
+    },
+    checkedClass() {
+      this.isChecked = this.todo.completed ? "completed" : "";
+      this.isInputChecked = this.todo.completed ? "selectBox_checked" : "";
+    },
+    mounted() {
+      this.$bus.$on("checkedClass", this.checkedClass);
+    },
+    beforeDestroy() {
+      this.$bus.$off("checkedClass");
+    },
+    // checkClass(todo) {
+    //   this.$bus.$emit("checkClass", todo);
+    // },
+  },
 };
 </script>
 

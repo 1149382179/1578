@@ -22,10 +22,7 @@ export default {
   //声明接收todo对象
   props: ["todo"],
   data() {
-    return {
-      isChecked: "",
-      isInputChecked: "",
-    };
+    return {};
   },
   methods: {
     checked(id) {
@@ -38,13 +35,9 @@ export default {
         this.$bus.$emit("deleteTodo", id);
       }
     },
-    checkedClass() {
-      this.isChecked = this.todo.completed ? "completed" : "";
-      this.isInputChecked = this.todo.completed ? "selectBox_checked" : "";
-    },
   },
   mounted() {
-    this.checkedClass();
+    this.$bus.$emit("checkedClass");
   },
 };
 </script>

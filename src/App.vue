@@ -42,9 +42,22 @@ export default {
     addTodo(x) {
       this.todoList.unshift(x);
     },
+    //勾选一个todo
     checkTodo(id) {
       this.todoList.forEach((todo) => {
         if (todo.id == id) todo.completed = !todo.completed;
+      });
+    },
+    //全选todo
+    checkAllTodo(nums) {
+      console.log(nums);
+      this.todoList.forEach((todoList) => {
+        if (nums % 2 == 1) {
+          todoList.completed = true;
+        }
+        if (nums % 2 == 0) {
+          todoList.completed = false;
+        }
       });
     },
     //删除一个Todo
@@ -54,6 +67,10 @@ export default {
     clearTodo() {
       this.todoList = this.todoList.filter((todo) => !todo.completed);
     },
+    // checkedClass(isChecked, isInputChecked) {
+    //   isChecked = this.todoList.completed ? "completed" : "";
+    //   isInputChecked = this.todoList.completed ? "selectBox_checked" : "";
+    // },
   },
   watch: {
     todoList: {
@@ -67,10 +84,12 @@ export default {
   mounted() {
     this.$bus.$on("checkTodo", this.checkTodo);
     this.$bus.$on("deleteTodo", this.deleteTodo);
+    this.$bus.$on("checkAllTodo", this.checkAllTodo);
   },
   beforeDestroy() {
     this.$bus.$off("checkTodo");
     this.$bus.$off("deleteTodo");
+    this.$bus.$off("checkAllTodo");
   },
 };
 </script>
