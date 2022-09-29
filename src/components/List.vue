@@ -2,7 +2,11 @@
   <div>
     <label>
       <span class="action">
-        <input type="checkbox" @click="checkAllTodo(nums)" />
+        <input
+          type="checkbox"
+          @click="checkAllTodo(checked)"
+          :checked="checked"
+        />
         <i></i>
       </span>
     </label>
@@ -16,33 +20,28 @@ import Item from "./Item.vue";
 export default {
   data() {
     return {
-      nums: 0,
+      checked: false,
     };
   },
   name: "List",
   components: { Item },
   props: ["todoList"],
   methods: {
-    checkAllTodo(nums) {
-      this.$bus.$emit("checkAllTodo", nums);
-      this.nums++;
-      // this.todoList.forEach(() => {
-      //   this.checkedClass();
-      // });
+    checkAllTodo(checked) {
+      this.$bus.$emit("checkAllTodo", checked);
+      this.checked = !checked;
     },
-    // checkedClass() {
-    //   this.isChecked = this.todo.completed ? "completed" : "";
-    //   this.isInputChecked = this.todo.completed ? "selectBox_checked" : "";
-    // },
-    // mounted() {
-    //   this.$bus.$on("checkedClass", this.checkedClass);
-    // },
-    // beforeDestroy() {
-    //   this.$bus.$off("checkedClass");
-    // },
-    // checkClass(todo) {
-    //   this.$bus.$emit("checkClass", todo);
-    // },
+    isAllChecked() {
+      if (completedTotal === total) this.checked = true;
+    },
+  },
+  mounted() {
+    if (
+      this.todoList.length ===
+      this.todoList.reduce((pre, todo) => pre + (todo.completed ? 1 : 0), 0)
+    ) {
+      this.checked = true;
+    }
   },
 };
 </script>

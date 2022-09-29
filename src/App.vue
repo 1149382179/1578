@@ -50,15 +50,9 @@ export default {
       });
     },
     //全选todo
-    checkAllTodo(nums) {
-      console.log(nums);
+    checkAllTodo(val) {
       this.todoList.forEach((todoList) => {
-        if (nums % 2 == 0) {
-          todoList.completed = true;
-        }
-        if (nums % 2 == 1) {
-          todoList.completed = false;
-        }
+        todoList.completed = val ? false : true;
       });
     },
     //删除一个Todo

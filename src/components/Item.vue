@@ -86,6 +86,7 @@ export default {
   border-radius: 100%;
   border: skyblue 1px solid;
   text-align: center;
+  transition: 1s;
 }
 
 /*判断是否有选择*/
@@ -103,6 +104,7 @@ input[type="checkbox"]:checked::before {
 .list {
   width: 250px;
   margin-left: 16px;
+  transition: 0.3s;
 }
 
 .listBox:hover .deleteBtn {
