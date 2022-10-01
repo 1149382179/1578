@@ -32,16 +32,37 @@ export default {
       this.checked = !checked;
     },
     isAllChecked() {
-      if (completedTotal === total) this.checked = true;
+      if (this.completedTotal === this.total) this.checked = true;
+      else this.checked = false;
+    },
+  },
+  computed: {
+    total() {
+      return this.todoList.length;
+    },
+    completedTotal() {
+      return this.todoList.reduce(
+        (pre, todo) => pre + (todo.completed ? 1 : 0),
+        0
+      );
     },
   },
   mounted() {
     if (
+      //判断是否全选（参考footer组件）
       this.todoList.length ===
       this.todoList.reduce((pre, todo) => pre + (todo.completed ? 1 : 0), 0)
     ) {
       this.checked = true;
     }
+  },
+  watch: {
+    todoList: {
+      deep: true,
+      handler() {
+        this.isAllChecked();
+      },
+    },
   },
 };
 </script>
