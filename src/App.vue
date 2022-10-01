@@ -89,17 +89,26 @@ export default {
 </script>
 
 <style lang="css">
+html,
+body,
+#app {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
 body {
   background-color: #e3ebf4;
 }
+
 .warp {
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 80px;
 }
 .bodyBox {
+  /* 水平垂直居中 */
+  margin: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;

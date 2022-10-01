@@ -1,7 +1,7 @@
 <template>
   <div>
     <label>
-      <span class="action">
+      <span class="action" v-show="total">
         <input
           type="checkbox"
           @click="checkAllTodo(checked)"
