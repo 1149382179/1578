@@ -11,12 +11,20 @@
       <!-- <input type="checkbox" class="selectBox" v-model="todo.completed" /> -->
       <div class="list" :class="isChecked">{{ todo.title }}</div>
     </label>
-    <button class="deleteBtn" @click="handleDelete(todo.id)">x</button>
+    <button class="editBtn" @click.stop="">
+      <MdCreateIcon w="20px" h="20px" />
+    </button>
+    <button class="deleteBtn" @click.stop="handleDelete(todo.id)">
+      <IosCloseIcon w="25px" h="25px" />
+    </button>
   </div>
 </template>
 
 <script>
 import pubsub from "pubsub-js";
+import MdCreateIcon from "vue-ionicons/dist/md-create.vue";
+import IosCloseIcon from "vue-ionicons/dist/ios-close.vue";
+
 export default {
   name: "Item",
 
@@ -56,6 +64,7 @@ export default {
       },
     },
   },
+  components: { MdCreateIcon, IosCloseIcon },
 };
 </script>
 
@@ -76,6 +85,7 @@ export default {
   background: #e3eaf4;
   box-shadow: 5px 5px 8px #c1c7cf, -5px -5px 8px #ffffff;
   transition: all 3s linear 1s;
+  display: flex;
 }
 
 .selectBox {
@@ -102,12 +112,17 @@ input[type="checkbox"]:checked::before {
 }*/
 
 .list {
-  width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis; /*溢出用省略号显示*/
+  width: 230px;
   margin-left: 16px;
   transition: 0.3s;
 }
 
 .listBox:hover .deleteBtn {
+  opacity: 1;
+}
+.listBox:hover .editBtn {
   opacity: 1;
 }
 
@@ -116,10 +131,12 @@ input[type="checkbox"]:checked::before {
   color: #b8bed1;
 }
 
-.deleteBtn {
+.deleteBtn,
+.editBtn {
   opacity: 0;
-  color: #b8bed1;
   background-color: #b8bed100;
   border: none;
+  filter: invert(51%) sepia(94%) saturate(1681%) hue-rotate(189deg)
+    brightness(100%) contrast(103%);
 }
 </style>
