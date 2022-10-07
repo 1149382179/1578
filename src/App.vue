@@ -49,6 +49,12 @@ export default {
         if (todo.id == id) todo.completed = !todo.completed;
       });
     },
+    //修改一个todo
+    updateTodo(id, title) {
+      this.todoList.forEach((todo) => {
+        if (todo.id == id) todo.title = title.trim();
+      });
+    },
     //全选todo
     checkAllTodo(val) {
       this.todoList.forEach((todoList) => {
@@ -60,6 +66,7 @@ export default {
       //下划线占位
       this.todoList = this.todoList.filter((todo) => todo.id !== id);
     },
+    //清除所有
     clearTodo() {
       this.todoList = this.todoList.filter((todo) => !todo.completed);
     },
@@ -75,15 +82,15 @@ export default {
   components: { UserFooter, UserHeader, List },
   mounted() {
     this.$bus.$on("checkTodo", this.checkTodo);
+    this.$bus.$on("updateTodo", this.updateTodo);
     // this.$bus.$on("deleteTodo", this.deleteTodo);
     this.pubId = pubsub.subscribe("deleteTodo", this.deleteTodo);
-    this.$bus.$on("checkAllTodo", this.checkAllTodo);
   },
   beforeDestroy() {
     this.$bus.$off("checkTodo");
+    this.$bus.$off("updateTodo");
     // this.$bus.$off("deleteTodo");
     pubsub.unsubscribe(this.pubId);
-    this.$bus.$off("checkAllTodo");
   },
 };
 </script>

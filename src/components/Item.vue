@@ -9,9 +9,25 @@
       />
       <!-- 如下代码也能实现功能，但是不推荐，因为修改了props -->
       <!-- <input type="checkbox" class="selectBox" v-model="todo.completed" /> -->
-      <div class="list" :class="isChecked">{{ todo.title }}</div>
+      <span v-show="!todo.isEdit" class="list" :class="isChecked">
+        {{ todo.title }}
+      </span>
+      <input
+        @click.stop=""
+        ref="inputVal"
+        v-show="todo.isEdit"
+        type="text"
+        class="inputBox"
+        :value="todo.title"
+        @blur="handleBlur(todo, $event)"
+        autofocus="autofocus"
+      />
     </label>
-    <button class="editBtn" @click.stop="">
+    <button
+      v-show="!todo.isEdit"
+      class="editBtn"
+      @click.stop="handleEdit(todo)"
+    >
       <MdCreateIcon w="20px" h="20px" />
     </button>
     <button class="deleteBtn" @click.stop="handleDelete(todo.id)">
@@ -47,6 +63,23 @@ export default {
         // this.$bus.$emit("deleteTodo", id);
         pubsub.publish("deleteTodo", id);
       }
+    },
+    //编辑todo
+    handleEdit(todo) {
+      if (todo.hasOwnProperty("isEdit")) {
+        todo.isEdit = true;
+      } else {
+        this.$set(todo, "isEdit", true);
+      }
+      this.$nextTick(function () {
+        this.$refs.inputVal.focus();
+      });
+    },
+    // 失去焦点回调
+    handleBlur(todo, e) {
+      todo.isEdit = false;
+      if (!e.target.value.trim()) return alert("输入不能为空！");
+      this.$bus.$emit("updateTodo", todo.id, e.target.value);
     },
     checkedClass() {
       this.isChecked = this.todo.completed ? "completed" : "";
@@ -129,6 +162,18 @@ input[type="checkbox"]:checked::before {
 .list.completed {
   text-decoration: line-through;
   color: #b8bed1;
+}
+
+.inputBox {
+  margin-left: 16px;
+  width: 254px;
+  height: 25px;
+  font-size: 1.2rem;
+  /* 透明色背景 */
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid blue;
+  outline: none;
 }
 
 .deleteBtn,
